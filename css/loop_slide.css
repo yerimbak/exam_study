@@ -57,6 +57,7 @@ a{text-decoration: none;}
 .scrollbar .scrollbar_inner .page {
   height: 100%;
   float: left;
+  position: absolute;
   /* background: rgb(79, 198, 241); */
 }
 .scrollbar_inner .page.animated {

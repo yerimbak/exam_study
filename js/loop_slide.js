@@ -8,10 +8,12 @@ let prevBtn = document.querySelector('.prev');
 let nextBtn = document.querySelector('.next');
 
 let pageBox = document.querySelector('.scrollbar_inner');
-let pagination = document.querySelectorAll('.page');
 let boxWidth = pageBox.offsetWidth;
 
-
+pageBox.innerHTML += `<span class="page"></span>`;
+let pagination = document.querySelector('.page');
+let pageelBox = boxWidth/slideCount;
+pagination.style.width = pageelBox + 'px';
 
 
 makeClone();
@@ -55,43 +57,42 @@ prevBtn.addEventListener('click',function(){
   moveSlide(currentIdx-1);
 });
 
-function addPage(){
-  for(let y = 0; y<slideCount; y++){
-    pageBox.innerHTML += `<span class="page"></span>`;
-  }
-let newpage = document.querySelectorAll('.page');
-let newpageLen = newpage.length;
-let newpageWidth = pageBox.offsetWidth / newpageLen;
-  for(let x=0; x<newpageLen; x++){
-    newpage[x].style.width = newpageWidth+'px';
-    if(x === currentIdx){
-      newpage[x].classList.add('animated')
-    }
-  }
+// function addPage(){
+//   for(let y = 0; y<slideCount; y++){
+//     pageBox.innerHTML += `<span class="page"></span>`;
+//   }
+// let newpage = document.querySelectorAll('.page');
+// let newpageLen = newpage.length;
+// let newpageWidth = pageBox.offsetWidth / newpageLen;
+  // for(let x=0; x<newpageLen; x++){
+  //   newpage[x].style.width = newpageWidth+'px';
+  // }
+// }
+// function aa(){
+// addPage();
 
-}
+// }
+// aa();
 
-
-function aa(){
-addPage();
-
-}
-aa();
 
 
 
 
 function moveSlide(num){
   slides.style.left = -num * (slideWidth + slideMargin) + 'px';
+  pagination.style.left = num * pageelBox +'px';
   currentIdx = num;
   if(currentIdx === slideCount || currentIdx === -slideCount){
     setTimeout(function(){
       slides.classList.remove('animated');
+      pagination.classList.remove('animated');
       slides.style.left = '0px';
+      pagination.style.left = '0px';
       currentIdx = 0;
     }, 500);
     setTimeout(function(){
       slides.classList.add('animated');
+      pagination.classList.add('animated');
     }, 600);
   }
 
@@ -115,5 +116,5 @@ slides.addEventListener('mouseenter', function(){
   stopSlide();
 });
 slides.addEventListener('mouseleave', function(){
-  // autoslide();
+  autoSlide();
 });
