@@ -58,7 +58,7 @@ a{text-decoration: none;}
   height: 100%;
   float: left;
   position: absolute;
-  /* background: rgb(79, 198, 241); */
+  background: rgb(79, 198, 241);
 }
 .scrollbar_inner .page.animated {
   transition: 0.5s;
