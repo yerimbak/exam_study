@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
+  <title>Document</title>
+</head>
+<style>
+*{margin:0; padding:0;}
+li{list-style:none;}
+
+.slide_wrapper{
+	position: relative;
+	width: 360px;
+	margin: 0 auto;
+	height: 260px;
+	overflow:hidden;
+  border: 1px solid;
+}
+.slides{
+	position: absolute;
+	left:0; top:0;	
+}
+.slides.animated{
+	transition: 0.5s ease-out;
+}
+.slides li{
+	width: 200px;
+	height: 200px;
+	background:#ccc;
+	float:left;
+}
+.slides li:not(:last-child){	
+	margin-right: 30px;
+}
+.controls{
+	text-align: center;
+	margin-top: 50px;
+}
+
+.controls span{
+	background:#333;
+	color: #fff;
+	padding:10px 20px;
+	margin:0 10px;
+}
+.pager {
+  width: 200px;
+  height: 5px;
+  background-color: rgba(0, 0, 0, 0.277);
+  margin: 0 auto;
+  position: relative;
+  top: 90%;
+  padding: 0;
+}
+.pager span {
+  width: calc(100% / 7 );
+  height: 5px;
+  display: inline-block;
+  position: absolute;
+}
+.pager span.animated {
+  background: #333;
+  transition: 0.5s ease-out;
+}
+</style>
+
+<body>
+  <div class="slide_wrapper">
+    <ul class="slides">
+      <li>
+        <img src="./images/03.png" alt="라이언1" />
+      </li>
+      <li>
+        <img src="./images/05.png" alt="라이언2" />
+      </li>
+      <li>
+        <img src="./images/06.png" alt="라이언3" />
+      </li>
+      <li>
+        <img src="./images/07.png" alt="라이언4" />
+      </li>
+      <li>
+        <img src="./images/08.png" alt="라이언5" />
+      </li>
+      <li>
+        <img src="./images/09.png" alt="라이언6" />
+      </li>
+      <li>
+        <img src="./images/10.png" alt="라이언7" />
+      </li>
+    </ul>
+
+
+    <div class="pager">
+      <span data-idx="0"></span>
+      <span data-idx="1"></span>
+      <span data-idx="2"></span>
+      <span data-idx="3"></span>
+      <span data-idx="4"></span>
+      <span data-idx="5"></span>
+      <span data-idx="6"></span>
+    </div>
+  </div>
+
+    <p class="controls">
+      <span class="prev">prev</span>
+      <span class="next">next</span>
+    </p>
+
+  <!-- <p>
+    <a href="#none" class="play">재생</a> &nbsp;
+    <a href="#none" class="stop">정지</a>
+  </p> -->
+  <script>
+    const slides = document.querySelector('.slides');
+    let slide = document.querySelectorAll('.slides li');
+    let currentIdx = 0;
+    let slideCount = slide.length;
+    let slideWidth = 200;
+    let slideMargin = 30;
+    let prevBtn = document.querySelector('.prev');
+    let nextBtn = document.querySelector('.next');
+
+
+
+
+    makeClone();
+
+    function makeClone(){
+      for(let i = 0; i<slideCount; i++){
+        // a.cloneNode() : a요소를 그대로 복사
+        // a.cloneNode(true) : a요소의 자식요소까지 모두 복사
+        let cloneSlide = slide[i].cloneNode(true);
+        cloneSlide.classList.add('clone');
+        //a.appendChild(b) : a요소의 기존 내용 뒤에 b를 추가
+        slides.appendChild(cloneSlide);
+      }
+      for(let x = slideCount-1; x>=0; x--){
+        let cloneSlide = slide[x].cloneNode(true);
+        cloneSlide.classList.add('clone');
+        slides.prepend(cloneSlide);
+      }
+
+      updateWidth();
+      setInitialPos();
+      setTimeout(function(){
+        slides.classList.add('animated');
+      },100);
+    }
+
+    function updateWidth(){
+      let currentSlides = document.querySelectorAll('.slides li');
+      let newSlideCount = currentSlides.length;
+
+      let newWidth = (slideWidth + slideMargin)*newSlideCount - slideMargin + 'px';
+      slides.style.width = newWidth;
+    }
+
+    function setInitialPos(){
+      let initialTranslateValue = -(slideWidth + slideMargin)/1.5*slideCount;
+      // slides {transform:translateX(-1000px)}
+      slides.style.transform = 'translateX(' + initialTranslateValue + 'px)';
+    }
+
+    nextBtn.addEventListener('click', function(){
+      moveSlide(currentIdx + 1);
+    });
+    prevBtn.addEventListener('click', function(){
+      moveSlide(currentIdx - 1);
+    });
+
+
+    let pagerBtn = document.querySelectorAll('.pager span');
+    let spanWidth = (100/7);
+    let spanCount = pagerBtn.length;
+
+    function pagination(num){
+
+      pagerBtn.style.left = num * (spanWidth) + 'px';
+      currentIdx = num;
+      if(currentIdx === spanCount || currentIdx == -slideCount) {
+        setTimeout(function(){
+          pagerBtn.classList.remove('animated');
+          pagerBtn.style.left = '0px';
+          currentIdx = 0;
+        }, 500);
+        setTimeout(function(){
+          pagerBtn.classList.add('animated');
+        },600)
+      }
+    }
+
+
+    function moveSlide(num){
+      slides.style.left = -num * (slideWidth + slideMargin) + 'px';
+      currentIdx = num;
+
+      if(currentIdx === slideCount || currentIdx == -slideCount) {
+
+        setTimeout(function(){
+
+          slides.classList.remove('animated');
+          slides.style.left = '0px';
+          currentIdx = 0;
+        }, 500);
+        setTimeout(function(){
+          slides.classList.add('animated');
+        },600)
+
+      }
+    }
+
+
+    let timer = undefined;
+
+    function autoSlide(){
+      if(timer === undefined){
+        timer = setInterval(function(){
+          moveSlide(currentIdx + 1);
+        }, 3000);
+      }
+    }
+    autoSlide();
+
+    function stopSlide(){
+      clearInterval(timer);
+      timer = undefined;
+    }
+
+    slides.addEventListener('mouseenter', function(){
+      stopSlide();
+    });
+    slides.addEventListener('mouseleave', function(){
+      autoSlide();
+    });
+
+    // 반응형 슬라이드
+    window.addEventListener('resize', function(){
+      let currentWidth = document.querySelector('body').offsetWidth;
+      if(currentWidth < 700){
+        let slidesWidth = slides.offsetWidth;
+      }
+    });
+
+  </script>
+</body>
+
+</html>

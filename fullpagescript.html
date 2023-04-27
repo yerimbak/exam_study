@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>풀페이지 만들어보기</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+  li {list-style: none;}
+  a {text-decoration: none;}
+
+  /* header시작 */
+  .header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 70px;
+    background: rgba(77, 77, 77, 0.5);
+    transition: background .5s;
+  }
+  .header .header_wrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .header .header_wrap .logo {
+    padding: 10px 20px;
+
+  }
+  .header .header_wrap .logo p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .header .header_wrap .menu {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 1px solid red;
+    margin-left: auto;
+    margin-right: 10px;
+    padding: 10px;
+  }
+  .header .header_wrap .menu span {
+  }
+  /* header끝 */
+
+  /* nav_list */
+  .nav_list {
+    position: fixed;
+    right: 50px;
+    top: 50%;
+    z-index: 9999;
+    transform:translateY(-50%); -webkit-transform:translateY(-50%); -moz-transform:translateY(-50%); -ms-transform:translateY(-50%);
+  }
+  .nav_list li { margin-bottom: 15px; list-style: none; text-decoration: none;}
+  .nav_list li a {position: relative; display: block; color: #fff; transition: .5s; -webkit-transition:.5s; -moz-transition:.5s; -o-transition:.5s; -ms-transition:.5s;}
+
+  /* section시작 */
+  .section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+
+  .section .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .section .title p {
+    font-size: 80px;
+    font-weight: 700;
+    color: #b5b5b5;
+    text-align: center;
+  }
+
+  .one {
+    background: #1783f7;
+  }
+
+  .two {
+    background: #9ccef8;
+  }
+
+  .three {
+    background: #8783ff;
+  }
+
+  .four {
+    background: #caa5fe;
+  }
+
+  .five {
+    background: #3450ac;
+  }
+</style>
+
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="header_wrap">
+        <div class="logo">
+          <p>BYR</p>
+        </div>
+        <div class="menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </header>
+    <ul class="nav_list">
+      <li>
+        <a href="#">
+          <span>section1</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span>section2</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span>section3</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span>section4</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span>section5</span>
+        </a>
+      </li>
+    </ul>
+  <div class="section one">
+    <div class="title">
+      <p>section1</p>
+    </div>
+  </div>
+  <div class="section two">
+    <div class="title">
+      <p>section2</p>
+    </div>
+  </div>
+  <div class="section three">
+    <div class="title">
+      <p>section3</p>
+    </div>
+  </div>
+  <div class="section four">
+    <div class="title">
+      <p>section4</p>
+    </div>
+  </div>
+  <div class="section five">
+    <div class="title">
+      <p>section5</p>
+    </div>
+  </div>
+  </div>
+
+  <script>
+
+    const header = document.querySelector('.header');
+    const section = document.querySelectorAll('.section');
+
+    let winScrollTop;
+    let offsetTop=[];
+    let offsetBottom=[];
+    let sectionIsMoving = false;
+
+    function moveSection(index) {
+      
+      setProperty();
+
+      if(winScrollTop > offsetTop[index] && winScrollTop < offsetBottom[index]){
+
+        if(!sectionIsMoving) {
+          sectionIsMoving = true;
+          moveStartRender(index);
+        }
+      }
+    };
+
+    function setProperty() { // 각 섹션마다 높이
+      winScrollTop = window.pageYOffset;
+      section.forEach(function(obj,index){
+        offsetTop[index] = obj.getBoundingClientRect().top + window.pageYOffset;
+        offsetBottom[index] = offsetTop[index] + obj.offsetHeight;
+      });
+    };
+
+    function moveStartRender(index) { // moveSection -> 스크롤 이동 시 풀페이지
+      scrollMove();
+      if(scrollY >= moveY && dir > 0){
+        scrollMove(offsetBottom+1);
+      } else {
+        scrollMove(offsetTop);
+      }
+    }
+
+    function scrollMove(moveY) {
+      let speed = 3;
+      let vy = 0;
+      let scrollY = 0;
+
+      let loop = setInterval(function() {
+
+        let dir = moveY > window.pageYOffset ? 1 : -1;
+          vy += speed * dir;
+
+          if(dir > 0) {
+            scrollY = Math.min(moveY, window.pageYOffset + vy)
+          } else {
+            scrollY = Math.max(moveY, window.pageYOffset + vy)
+          }
+
+          window.scrollTo(0,scrollY);
+
+          if(scrollY >= moveY && dir > 0) {
+            sectionIsMoving = false;
+            clearInterval(loop)
+          } else if(scrollY <= moveY && dir < 0) {
+            sectionIsMoving = false;
+            clearInterval(loop)
+          }
+      }, 10);
+    };
+
+
+
+    function init() {
+      moveSection();
+      setProperty();
+    };
+
+    window.addEventListener('scroll', function() {
+      moveSection();
+    });
+
+    window.onload = function() {
+      init();
+    };
+  </script>
+</body>
+
+</html>
