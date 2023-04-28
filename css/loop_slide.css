@@ -6,7 +6,7 @@ a{text-decoration: none;}
   position: relative;
   width: 460px;
   margin: 0 auto;
-  height: 230px;
+  height: 300px;
   overflow: hidden;
   margin-top: 10%;
 }
@@ -43,25 +43,58 @@ a{text-decoration: none;}
   height: 7px;
   overflow: hidden;
   margin: 0 auto;
-  top: 96%;
+  top: 76%;
   background-color: rgba(0, 0, 0, 0.473);
 }
 .scrollbar_inner {
-  position: absolute;
+  /* position: relative; */
   width: 100%;
   top: 0;
   left:0;
   height: 100%;
-  transition: 0.5s;
+  display: block;
+  /* transition: 0.5s; */
 }
-.scrollbar .scrollbar_inner .page {
+.scrollbar .scrollbar_inner .rod {
+  transition: 0.5s;
   height: 100%;
   float: left;
   position: absolute;
   background: rgb(79, 198, 241);
 }
-.scrollbar_inner .page.animated {
-  transition: 0.5s;
+.scrollbar_inner .rod.animated {
   background: rgb(79, 198, 241);
   height: 100%;
+}
+.pageBox {
+  position: absolute;
+  text-align: center;
+  display: flex;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+}
+.pageBox .page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  /* border: 1px solid; */
+  background-color: #bec1fd;
+  color: #999;
+  transition: 0.5s;
+}
+.pageBox .page.animated {
+  background-color: #7a80f7;
+  color: #5d5d5d;
+}
+.pageBox .page:not(:last-child){
+  margin-right: 10px;
+}
+
+.pagelocation {
+  position: absolute;
+  bottom: 22%;
+  right: 0;
 }

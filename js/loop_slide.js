@@ -7,13 +7,54 @@ let slideMargin = 30;
 let prevBtn = document.querySelector('.prev');
 let nextBtn = document.querySelector('.next');
 
-let pageBox = document.querySelector('.scrollbar_inner');
-let boxWidth = pageBox.offsetWidth;
+let scrollBox = document.querySelector('.scrollbar_inner');
+let boxWidth = scrollBox.offsetWidth;
 
-pageBox.innerHTML += `<span class="page"></span>`;
-let pagination = document.querySelector('.page');
-let pageelBox = boxWidth/slideCount;
-pagination.style.width = pageelBox + 'px';
+scrollBox.innerHTML += `<span class="rod"></span>`;
+let scrollBar = document.querySelector('.rod');
+let scrollBarWidth = boxWidth/slideCount;
+scrollBar.style.width = scrollBarWidth + 'px';
+// 페이지 박스 안에 숫자로 나타내는 박스
+const pageBox = document.querySelector('.pageBox');
+function pageBoxArea() {
+  for(let i = 1; i<=slideCount; i++) {
+    pageBox.innerHTML += `<div class="page" data-idx="${i - 1}">${i}</div>`;
+  };
+};
+pageBoxArea();
+let pageNum = document.querySelectorAll('.page');
+
+// 각 pagebox 클릭하면 할 일
+// for(let o = 0; o<pageNum.length; o++){
+//   pageNum[o].addEventListener('click',function(event){
+//     console.log(event.target.innerText);
+
+//     let pageIdx = event.target.getAttribute('data-idx');
+//     //innerText는 내용 반환 A.innerText / A.innerText = 'B';
+//     //innerHTML 의 태그를 반환 A.innerHTML / A.innerHTML = 'B';
+//     // let pageIdx = event.target.innerText - 1;
+//     moveSlide(pageIdx);
+
+//     // 클릭 이벤트
+//     // for(let y=0; y<pageNum.length; y++){
+//     //   pageNum[y].classList.remove('animated');
+//     // }
+//     // event.target.classList.add('animated');
+
+//   });
+// }
+
+
+
+
+// 페이지 1/1 이런 식으로 나타내는 함수
+// let nowPage = document.querySelector('.pagelocation .nowpage');
+// console.log(nowPage)
+// function pageLocation(){
+//   const totalPage = document.querySelector('.pagelocation .totalpage');
+//   totalPage.innerText = slideCount;
+// }
+// pageLocation();
 
 
 makeClone();
@@ -59,11 +100,11 @@ prevBtn.addEventListener('click',function(){
 
 // function addPage(){
 //   for(let y = 0; y<slideCount; y++){
-//     pageBox.innerHTML += `<span class="page"></span>`;
+//     scrollBox.innerHTML += `<span class="page"></span>`;
 //   }
 // let newpage = document.querySelectorAll('.page');
 // let newpageLen = newpage.length;
-// let newpageWidth = pageBox.offsetWidth / newpageLen;
+// let newpageWidth = scrollBox.offsetWidth / newpageLen;
   // for(let x=0; x<newpageLen; x++){
   //   newpage[x].style.width = newpageWidth+'px';
   // }
@@ -75,24 +116,23 @@ prevBtn.addEventListener('click',function(){
 // aa();
 
 
-
-
-
 function moveSlide(num){
   slides.style.left = -num * (slideWidth + slideMargin) + 'px';
-  pagination.style.left = num * pageelBox +'px';
+  scrollBar.style.left = num * scrollBarWidth +'px';
+  // nowPage.innerText = num;
   currentIdx = num;
   if(currentIdx === slideCount || currentIdx === -slideCount){
     setTimeout(function(){
       slides.classList.remove('animated');
-      pagination.classList.remove('animated');
+      scrollBar.style.transition='none';
       slides.style.left = '0px';
-      pagination.style.left = '0px';
+      scrollBar.style.left = '0px';
       currentIdx = 0;
     }, 500);
     setTimeout(function(){
       slides.classList.add('animated');
-      pagination.classList.add('animated');
+      scrollBar.style.transition='0.5s';
+
     }, 600);
   }
 
@@ -103,7 +143,7 @@ function autoSlide(){
   if(timer === undefined){
     timer = setInterval(function(){
       moveSlide(currentIdx+1);
-    },3000)
+    },2000)
   }
 }
 autoSlide();
