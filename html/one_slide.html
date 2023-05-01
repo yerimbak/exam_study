@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  *{box-sizing: border-box;}
+  body{ margin-top: 5em; font: 20px/1.5 "Helvetica", Arial, sans-serif;}
+  .container {position: relative; width: 100%; overflow: hidden;}
+  .slider-container {position: absolute; width: 100%;}
+  .slide {
+    position: absolute;
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    overflow: hidden;
+  }
+  .slider-container.animated{
+    -webkit-transition: left .3s ease-in;
+    transition: left .3s ease-in;
+  }
+  blockquote {
+    color: #636363;
+    font-weight: 300;
+    font-style: italic;
+    margin-bottom: 1.5em;
+  }
+  cite {
+    font-size: .75em;
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .simple-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Nav */
+  .prev,.next {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%);
+    z-index: 99999;
+    display: inline-block;
+    height: 5em;
+    width: 5em;
+    border-radius: 50%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-transition: all .3s ease-in;
+    transition: all .3s ease-in;
+  }
+  .prev.disabled, .next.disabled { display: none;}
+  .prev { background-image: url('arrow-left-out.svg'); margin-left: -480px;}
+  .prev:hover {background-image: url('arrow-left-over.svg');}
+
+  .next {margin-left: 380px; background-image: url('arrow-right-out.svg');}
+  .next:hover {background-image: url('arrow-right-over.svg');}
+</style>
+<body>
+  <div class="container">
+    <ul class="slider-container simple-list" id="slider">
+      <li class="slide"><img src=""></li>
+      <li class="slide"><img src=""></li>
+      <li class="slide"><img src=""></li>
+      <li class="slide"><img src=""></li>
+      <li class="slide"><img src=""></li>
+      <li class="slide"><img src=""></li>
+    </ul>
+
+    <a href="#" class="prev"></a>
+    <a href="#" class="next"></a>
+  </div>
+</body>
+</html>

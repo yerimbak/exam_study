@@ -75,6 +75,7 @@ function makeClone(){
   
   setTimeout(function(){
     slides.classList.add('animated');
+
   },100);
 }
 
