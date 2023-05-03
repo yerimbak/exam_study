@@ -2,6 +2,10 @@
 li{list-style: none;}
 a{text-decoration: none;}
 
+.container {
+  width: 500px;
+  margin: 0 auto;
+}
 .slide_wrapper {
   position: relative;
   width: 460px;
@@ -97,4 +101,15 @@ a{text-decoration: none;}
   position: absolute;
   bottom: 22%;
   right: 0;
+}
+
+@media (max-width: 700px){
+  .container {
+    width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  .slide_wrapper {
+    width: 100%;
+  }
 }

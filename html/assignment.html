@@ -1,12 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/assignment.css">
   <title>14가지 스크립트 과제</title>
 </head>
+
 <body>
-  
+
+  <header class="header">
+    <div class="header_wrap">
+      <div class="logo">
+        <p>BYR</p>
+      </div>
+      <div class="menu_wrap">
+        <div class="menu1">
+          <p class="title">메뉴1</p>
+          <ul class="menu">
+            <li>서브메뉴1</li>
+            <li>서브메뉴2</li>
+            <li>서브메뉴3</li>
+            <li>서브메뉴4</li>
+          </ul>
+        </div>
+        <div class="menu2">
+          <p class="title">메뉴2</p>
+          <ul class="menu">
+            <li>서브메뉴1</li>
+            <li>서브메뉴2</li>
+            <li>서브메뉴3</li>
+            <li>서브메뉴4</li>
+            <li>서브메뉴5</li>
+            <li>서브메뉴6</li>
+            <li>서브메뉴7</li>
+          </ul>
+        </div>
+      </div>
+      <div class="menu_icon">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="section one">
+      <div class="tab_wrap">
+        <div class="nav">
+          <ul class="tab_title">
+            <li>탭1</li>
+            <li>탭2</li>
+            <li>탭3</li>
+          </ul>
+        </div>
+
+        <div class="tab_cont">
+          <div>내용1</div>
+          <div>내용2</div>
+          <div>내용3</div>
+        </div>
+      </div>
+    </section>
+    <section class="section two">
+      <div class="acco_wrap">
+        <div class="acco">
+          <p>제목1</p>
+          <div class="acco_cont">
+            내용1
+          </div>
+        </div>
+        <div class="acco">
+          <p>제목2</p>
+          <div class="acco_cont">
+            내용2
+          </div>
+        </div>
+        <div class="acco">
+          <p>제목3</p>
+          <div class="acco_cont">
+            내용3
+          </div>
+        </div>
+        <div class="acco">
+          <p>제목4</p>
+          <div class="acco_cont">
+            내용4
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+  </div>
+
+  <script>
+    let menuBtn = document.querySelectorAll('.menu_wrap > div .title');
+    let menuAll = document.querySelectorAll('.menu_wrap > div');
+    let menuCont = document.querySelectorAll('.menu_wrap > div .menu');
+    for (let i = 0; i < menuBtn.length; i++) {
+      let ContWidth = menuCont[i].offsetHeight;
+      menuBtn[i].addEventListener('mouseenter', function () {
+        menuCont[i].style.height = `${ContWidth}`;
+        menuCont[i].style.overflow = 'visible';
+      });
+      menuAll[i].addEventListener('mouseleave', function () {
+        menuCont[i].style.height = `${ContWidth}`;
+        menuCont[i].style.overflow = 'hidden';
+      });
+    };
+
+    let menuIcon = document.querySelector('.header_wrap .menu_icon');
+    menuIcon.addEventListener('click', function () {
+
+    });
+
+    const tabMenu = document.querySelectorAll('.tab_wrap .tab_title li');
+    const tabCont = document.querySelectorAll('.tab_wrap .tab_cont > div');
+    tabMenu.forEach(function (item, idx) {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        showContent(idx);
+      });
+    });
+    function showContent(num) {
+      tabCont.forEach(function (item) {
+        item.style.display = 'none';
+      });
+      tabCont[num].style.display = 'block';
+    }
+
+  </script>
 </body>
+
 </html>
