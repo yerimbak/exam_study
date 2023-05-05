@@ -18,6 +18,7 @@
     height: 100%;
     width: 100%;
   }
+
   li {
     list-style: none;
   }
@@ -41,11 +42,12 @@
     height: 7px;
     background-color: #333;
   }
+
   .progress_bar .bar {
     background-color: #2ba0ff;
     display: block;
-    width:0%;
-    height:100%;
+    width: 0%;
+    height: 100%;
   }
 
   h1 {
@@ -60,6 +62,7 @@
   header .gnb span {
     font-size: 30px;
   }
+
   .wrap {
     position: relative;
     margin: 0 auto;
@@ -97,9 +100,11 @@
   .section.four {
     background: #861bf8;
   }
+
   .section.five {
     background: #72db67;
   }
+
   .section.six {
     background: #1a0c57;
   }
@@ -115,6 +120,7 @@
     background-color: #0f0f0f63;
     transition: 0.3s;
   }
+
   .bottom_bar.active {
     transform: translateY(100%);
   }
@@ -131,7 +137,7 @@
     height: 100%;
   }
 
-  .menu li {
+  .bottom_bar .menu li {
     text-align: center;
     list-style: none;
     align-items: center;
@@ -141,6 +147,11 @@
     width: calc(100% / 6);
     color: #fff;
   }
+
+  .bottom_bar .menu li.on {
+    background-color: #0e0e0e;
+  }
+
   .side_menu {
     position: absolute;
     z-index: 999;
@@ -153,14 +164,17 @@
     transform: translateX(100%);
     transition: 0.5s;
   }
+
   .side_menu.active {
     right: 0;
     transform: translateX(0);
   }
+
   .side_menu .inner_menu {
     padding-top: 120px;
     padding-bottom: 30px;
   }
+
   .side_menu .close {
     font-size: 30px;
     border: 1px solid #333;
@@ -170,6 +184,7 @@
     right: 20px;
     top: 20px;
   }
+
   .side_menu .inner_menu li {
     width: 100%;
     height: 50px;
@@ -177,12 +192,14 @@
     display: flex;
     align-items: center;
   }
+
   .side_menu .inner_menu li p {
     padding: 0 20px;
     font-weight: 500;
     color: #fff;
     font-size: 22px;
   }
+
   .side_menu .inner_menu li:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -198,13 +215,23 @@
     <div class="side_menu">
       <div class="close">♥</div>
       <ul class="inner_menu">
-        <li><p>1</p></li>
-        <li><p>2</p></li>
-        <li><p>3</p></li>
-        <li><p>4</p></li>
-        <li><p>5</p></li>
+        <li>
+          <p>1</p>
+        </li>
+        <li>
+          <p>2</p>
+        </li>
+        <li>
+          <p>3</p>
+        </li>
+        <li>
+          <p>4</p>
+        </li>
+        <li>
+          <p>5</p>
+        </li>
       </ul>
-  </div>
+    </div>
   </header>
   <div class="progress_bar">
     <span class="bar"></span>
@@ -260,48 +287,91 @@
     let progressBar = document.querySelector('.progress_bar .bar');
     const scrollBody = document.querySelector('.scroll').offsetHeight;
     let scrollRealHeight = scrollBody - window.innerHeight;
+    const header = document.querySelector('header').offsetHeight;
+    let lastPos = 0;
 
-    function navBar(){
+    function sectionMove() {
+      for (let i = 0; i < section.length; i++) {
+        sectionBar[i].addEventListener('click', function (e) {
+          e.preventDefault();
+          // let sectionTop = section[i].getBoundingClientRect().top + scrollY;
+          let sectionTop = section[i].offsetTop;
+
+          let scrollInterval = setInterval(function () {
+            if (sectionTop - window.pageYOffset > 50 || window.pageYOffset - sectionTop > 50) {
+              if (sectionTop > lastPos) {
+                window.scrollBy(0, 55);
+              } else {
+                window.scrollBy(0, -55);
+              }
+
+            } else {
+              clearInterval(scrollInterval);
+              window.scrollTo(0, sectionTop);
+              lastPos = sectionTop;
+            }
+          }, 15);
+
+
+          // for (let i = 0; i < section.length; i++) {
+          //   if (section[i].offsetTop <= scrollY) {
+          //     for (let a = 0; a < sectionBar.length; a++) {
+          //       sectionBar[a].classList.remove('on');
+          //     }
+          //     sectionBar[i].classList.add('on');
+          //   }
+          // }
+
+        });
+      }
+    }
+    sectionMove();
+    function navBar() {
+      progress();
       scrollY = window.pageYOffset;
       let scrollDir = scrollY > moveY;
       // console.log(scrollY,moveY)
 
-      if(scrollDir){
+      if (scrollDir) {
         nav.classList.add('active');
       } else {
         nav.classList.remove('active');
       }
       moveY = scrollY;
-      
+
     }
 
-    function progress(){
-      let scrollPercent = scrollY/scrollRealHeight * 100;
+    function progress() {
+      let scrollPercent = scrollY / scrollRealHeight * 100;
       progressBar.style.width = scrollPercent + '%';
+
+
     }
 
-    window.addEventListener('scroll',function(){
+
+
+    window.addEventListener('scroll', function () {
       navBar();
-      progress();
+
     });
 
     const menuOn = document.querySelector('.menuOn');
     const sideMenu = document.querySelector('.side_menu');
     const menuOff = document.querySelector('.close');
-    menuOn.addEventListener('click',function(){
+    menuOn.addEventListener('click', function () {
       sideMenu.classList.add('active');
     });
-    menuOff.addEventListener('click', function(){
+    menuOff.addEventListener('click', function () {
       sideMenu.classList.remove('active');
     });
 
 
 
-    sectionBar.forEach(function(item,idx){
-      item.addEventListener('click',function(){
-        // setSection();
-      });
-    });
+    // sectionBar.forEach(function(item,idx){
+    //   item.addEventListener('click',function(){
+    //     // setSection();
+    //   });
+    // });
 
 
 
