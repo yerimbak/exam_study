@@ -203,6 +203,24 @@
   .side_menu .inner_menu li:not(:last-child) {
     margin-bottom: 10px;
   }
+  .sectionmove {
+    z-index: 999;
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+  }
+  .sectionmove span {
+    color: #fff;
+  }
+  .sectionmove span:hover {
+    background-color: #0e0e0e;
+  }
+  .sectionmove span:not(:last-child) {
+    margin-bottom: 8px;
+  }
 </style>
 
 <body>
@@ -235,6 +253,14 @@
   </header>
   <div class="progress_bar">
     <span class="bar"></span>
+  </div>
+  <div class="sectionmove">
+    <span>section1</span>
+    <span>section2</span>
+    <span>section3</span>
+    <span>section4</span>
+    <span>section5</span>
+    <span>section6</span>
   </div>
 
   <div class="wrap scroll">
@@ -283,7 +309,7 @@
     let moveY = 0;
     const nav = document.querySelector('.bottom_bar');
     const section = document.querySelectorAll('.section');
-    const sectionBar = document.querySelectorAll('.bottom_bar .menu li');
+    const sectionBar = document.querySelectorAll('.sectionmove span');
     let progressBar = document.querySelector('.progress_bar .bar');
     const scrollBody = document.querySelector('.scroll').offsetHeight;
     let scrollRealHeight = scrollBody - window.innerHeight;
@@ -312,20 +338,11 @@
             }
           }, 15);
 
-
-          // for (let i = 0; i < section.length; i++) {
-          //   if (section[i].offsetTop <= scrollY) {
-          //     for (let a = 0; a < sectionBar.length; a++) {
-          //       sectionBar[a].classList.remove('on');
-          //     }
-          //     sectionBar[i].classList.add('on');
-          //   }
-          // }
-
         });
       }
     }
     sectionMove();
+
     function navBar() {
       progress();
       scrollY = window.pageYOffset;
@@ -344,15 +361,25 @@
     function progress() {
       let scrollPercent = scrollY / scrollRealHeight * 100;
       progressBar.style.width = scrollPercent + '%';
+    }
 
-
+    function sectionActive(){
+      let scrollY = this.pageYOffset;
+      for (let i = 0; i < section.length; i++) {
+        if (section[i].offsetTop <= scrollY) {
+          for (let a = 0; a < sectionBar.length; a++) {
+            sectionBar[a].classList.remove('on');
+          }
+          sectionBar[i].classList.add('on');
+        }
+      }
     }
 
 
 
     window.addEventListener('scroll', function () {
       navBar();
-
+      sectionActive();
     });
 
     const menuOn = document.querySelector('.menuOn');
